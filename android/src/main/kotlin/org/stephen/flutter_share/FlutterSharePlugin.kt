@@ -2,6 +2,7 @@ package org.stephen.flutter_share
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -28,6 +29,9 @@ class FlutterSharePlugin : MethodCallHandler {
                 val url = call.argument<String>("url")
                 var intent = Intent()
                 intent.action = Intent.ACTION_SEND
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.DONUT) {
+                    intent.`package`="com.tencent.mm"
+                }
                 intent.putExtra(Intent.EXTRA_TEXT, title)
                 intent.putExtra(Intent.EXTRA_SUBJECT, url)
                 intent.type = "text/plain"
