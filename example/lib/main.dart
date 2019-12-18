@@ -65,9 +65,9 @@ class _MyAppState extends State<MyApp> {
 
   share() async {
     String url = "https://apps.apple.com/cn/";
-    String urlQQ = "https://apps.apple.com/cn/app/qq/id451108668?mt=12";
+    String urlQQ = "https://apps.apple.com/cn/app/id444934666";
     bundle.load("assets/images/failed.png").then((result) {
-      FlutterShare.share("分享的标题 \n$url", "",
+      FlutterShare.share("分享的标题 \n$urlQQ", "",
           image: result.buffer.asUint8List());
     });
   }
