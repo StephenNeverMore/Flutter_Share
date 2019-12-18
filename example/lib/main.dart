@@ -64,13 +64,11 @@ class _MyAppState extends State<MyApp> {
   PlatformAssetBundle bundle = PlatformAssetBundle();
 
   share() async {
-    bundle.load("assets/images/failed.png").then((result){
-      FlutterShare.share(
-        "分享的标题 \nhttps://apps.apple.com/cn/app/qq/id451108668?mt=12",
-        "",
-        image: result.buffer.asUint8List()
-      );
+    String url = "https://apps.apple.com/cn/";
+    String urlQQ = "https://apps.apple.com/cn/app/qq/id451108668?mt=12";
+    bundle.load("assets/images/failed.png").then((result) {
+      FlutterShare.share("分享的标题 \n$url", "",
+          image: result.buffer.asUint8List());
     });
-
   }
 }
