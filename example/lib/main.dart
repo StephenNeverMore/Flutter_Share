@@ -40,31 +40,6 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  Future<Uint8List> getAssetImage(String assetName) async {
-    final completer = Completer<Uint8List>();
-
-    final config = createLocalImageConfiguration(context);
-    final asset = AssetImage(assetName);
-    final key = await asset.obtainKey(config);
-    final comp = asset.load(key);
-    ImageStreamListener listener;
-    listener = ImageStreamListener((info, flag) {
-      comp.removeListener(listener);
-      info.image.toByteData(format: ui.ImageByteFormat.png).then((data) {
-        final l = data.buffer.asUint8List();
-        completer.complete(l);
-      });
-    }, onError: (e, s) {
-      completer.completeError(e, s);
-    });
-
-    comp.addListener(listener);
-
-    asset.resolve(config);
-
-    return completer.future;
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -86,10 +61,16 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  PlatformAssetBundle bundle = PlatformAssetBundle();
+
   share() async {
-    Uint8List assetImage = await getAssetImage("assets/images/failed.png");
-    FlutterShare.share(
-        "分享的标题", "https://apps.apple.com/cn/app/qq/id451108668?mt=12",
-        image: assetImage);
+    bundle.load("assets/images/failed.png").then((result){
+      FlutterShare.share(
+        "分享的标题 \nhttps://apps.apple.com/cn/app/qq/id451108668?mt=12",
+        "",
+        image: result.buffer.asUint8List()
+      );
+    });
+
   }
 }
